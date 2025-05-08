@@ -7,5 +7,7 @@ namespace BulletStormAPI.Services
         Task CreateAsync(UserDto userDto);
 
         Task<UserEloDto?> GetAsync(LoginDto loginDto);
+
+        Task<string> LoginAsync(LoginDto loginDto);
     }
 }

@@ -7,5 +7,7 @@
         public string Email { get; set; } = null!;
         
         public int ELO { get; set; }
+        
+
     }
 }

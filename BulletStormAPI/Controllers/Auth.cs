@@ -18,13 +18,14 @@ namespace BulletStormAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserEloDto>> GetAsync(LoginDto loginDto)
+        public async Task<ActionResult<string>> GetAsync(LoginDto loginDto)
         {
             if (!ModelState.IsValid)
             { 
                 return BadRequest(ModelState);
             }
-            return Ok(await userService.GetAsync(loginDto));    
+            var token = await userService.LoginAsync(loginDto);
+            return Ok(new { token = token });    
         }
     }
 }
