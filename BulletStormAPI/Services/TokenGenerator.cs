@@ -15,7 +15,7 @@ namespace BulletStormAPI.Services
             var claims = new[]
             {
               new Claim(ClaimTypes.Name, user.Name),
-              new Claim("ELO", user.ELO.ToString()),
+              new Claim(ClaimTypes.NameIdentifier,user.Id.ToString()),
               new Claim(ClaimTypes.Email, user.Email)
             };
 
