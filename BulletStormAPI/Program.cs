@@ -20,6 +20,10 @@ builder.Services.AddScoped<IUserRepository,UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<ITokenGenerator, TokenGenerator>();
+builder.Services.AddScoped<IMatchRepository, MatchRepository>();
+builder.Services.AddScoped<IMatchService, MatchService>();
+builder.Services.AddScoped<IResultService, ResultService>();
+builder.Services.AddScoped<IResultRepository, ResultRepository>();
 JwtHelper.Key = builder.Configuration["JwtConfig:Key"];
 JwtHelper.Issuer = builder.Configuration["JwtConfig:Issuer"];
 builder.Services.AddAuthentication(options =>
