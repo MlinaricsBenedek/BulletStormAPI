@@ -7,9 +7,9 @@ namespace BulletStormAPI.Model
         [Key]
         public int Id { get; set; }
 
-        public int Kill { get; set; }
-    
-        public int Assist { get; set; }
+        public int Kill { get; set; } = 0;
+
+        public int Assist { get; set; } = 0;
 
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
