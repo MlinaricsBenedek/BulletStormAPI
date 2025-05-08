@@ -23,7 +23,6 @@ namespace BulletStormAPI.Services
         public async Task CreateAsync(UserDto userDto)
         {
             var user = _mapper.Map<User?>(userDto);
-            user.ELO = 800;
             user.Password = _passwordHasher.Hash(userDto.Password);
             await _userRepository.CreateAsync(user);
         }
