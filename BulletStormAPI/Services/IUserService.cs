@@ -1,4 +1,5 @@
 ﻿using BulletStormAPI.Dto;
+using BulletStormAPI.Model;
 
 namespace BulletStormAPI.Services
 {
@@ -9,5 +10,7 @@ namespace BulletStormAPI.Services
         Task<UserEloDto?> GetAsync(LoginDto loginDto);
 
         Task<string> LoginAsync(LoginDto loginDto);
+
+        Task<User?> GetById(int id);
     }
 }

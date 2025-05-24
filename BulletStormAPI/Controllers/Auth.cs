@@ -1,7 +1,5 @@
 ﻿using BulletStormAPI.Dto;
-using BulletStormAPI.Model;
 using BulletStormAPI.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BulletStormAPI.Controllers
@@ -11,7 +9,7 @@ namespace BulletStormAPI.Controllers
     public class Auth : ControllerBase
     {
         private readonly IUserService userService;
-        
+
         public Auth(IUserService _userService)
         {
             userService = _userService;
@@ -21,11 +19,15 @@ namespace BulletStormAPI.Controllers
         public async Task<ActionResult<string>> GetAsync(LoginDto loginDto)
         {
             if (!ModelState.IsValid)
-            { 
+            {
                 return BadRequest(ModelState);
             }
             var token = await userService.LoginAsync(loginDto);
-            return Ok(new { token = token });    
+            if (token is null)
+            {
+                return BadRequest("The user doesn't exist");
+            }
+            return Ok(new { token = token });
         }
     }
 }

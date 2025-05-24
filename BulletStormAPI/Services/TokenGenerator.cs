@@ -1,6 +1,5 @@
 ﻿using BulletStormAPI.Dto;
 using BulletStormAPI.Model;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -23,7 +22,7 @@ namespace BulletStormAPI.Services
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: "your-app",
+                issuer: JwtHelper.Issuer,
                 audience: null,
                 claims: claims,
                 expires: DateTime.UtcNow.AddHours(1),
@@ -32,6 +31,6 @@ namespace BulletStormAPI.Services
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-        
+
     }
 }
