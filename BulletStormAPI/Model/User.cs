@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BulletStormAPI.Model
 {
@@ -8,7 +7,7 @@ namespace BulletStormAPI.Model
         [Key]
         public int Id { get; set; }
 
-        [Required,MinLength(4), MaxLength(20)]
+        [Required, MinLength(4), MaxLength(20)]
         public string Name { get; set; } = null!;
 
         [Required, MinLength(4), MaxLength(20)]
@@ -17,8 +16,8 @@ namespace BulletStormAPI.Model
         [Required]
         public string Password { get; set; } = null!;
 
-        public ICollection<Match> Match { get; set; } = new List<Match>();
+        public ICollection<Result> Results { get; set; } = new List<Result>();
 
-        public ICollection<Matches> Matches { get; set; } = new List<Matches>();
+        public ICollection<Statistics> Statistics { get; set; } = new List<Statistics>();
     }
 }

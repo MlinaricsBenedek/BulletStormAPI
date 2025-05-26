@@ -4,6 +4,7 @@ using BulletStormAPI.DatabaseConnection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BulletStormAPI.Migrations
 {
     [DbContext(typeof(DbConnect))]
-    partial class DatabaseConnectionModelSnapshot : ModelSnapshot
+    [Migration("20250520182601_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +25,7 @@ namespace BulletStormAPI.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("BulletStormAPI.Model.Match", b =>
+            modelBuilder.Entity("BulletStormAPI.Model.Global", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,25 +33,24 @@ namespace BulletStormAPI.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AggregatedAssits")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AggregatedKills")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AggregatedMatches")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<float>("MatchTime")
-                        .HasColumnType("real");
-
-                    b.Property<int>("ResultId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ResultId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Matches");
+                    b.ToTable("Globals");
                 });
 
             modelBuilder.Entity("BulletStormAPI.Model.Result", b =>
@@ -65,12 +67,65 @@ namespace BulletStormAPI.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("Deaths")
+                        .HasColumnType("int");
+
                     b.Property<int>("Kill")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("Won")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("BulletStormAPI.Model.Statistics", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("AggregatedAssits")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AggregatedDeath")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AggregatedKills")
+                        .HasColumnType("int");
+
+                    b.Property<int>("AggregatedMatches")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("ELO")
+                        .HasColumnType("real");
+
+                    b.Property<DateTime>("Updated")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Results");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Matches");
                 });
 
             modelBuilder.Entity("BulletStormAPI.Model.User", b =>
@@ -80,9 +135,6 @@ namespace BulletStormAPI.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ELO")
-                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -103,33 +155,31 @@ namespace BulletStormAPI.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("BulletStormAPI.Model.Match", b =>
+            modelBuilder.Entity("BulletStormAPI.Model.Result", b =>
                 {
-                    b.HasOne("BulletStormAPI.Model.Result", "Result")
-                        .WithMany("Results")
-                        .HasForeignKey("ResultId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BulletStormAPI.Model.User", "User")
-                        .WithMany("Matches")
+                        .WithMany("Results")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Result");
-
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("BulletStormAPI.Model.Result", b =>
+            modelBuilder.Entity("BulletStormAPI.Model.Statistics", b =>
                 {
-                    b.Navigation("Results");
+                    b.HasOne("BulletStormAPI.Model.User", null)
+                        .WithMany("Statistics")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("BulletStormAPI.Model.User", b =>
                 {
-                    b.Navigation("Matches");
+                    b.Navigation("Results");
+
+                    b.Navigation("Statistics");
                 });
 #pragma warning restore 612, 618
         }

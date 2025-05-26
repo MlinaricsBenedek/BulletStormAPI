@@ -9,8 +9,10 @@ namespace BulletStormAPI.DatabaseConnection
 
         public DbSet<User> Users { get; set; }
 
-        public DbSet<Match> Matches { get; set; }
+        public DbSet<Result> Results { get; set; }
 
-        public DbSet<Result> Results {get;set;}
+        public DbSet<Statistics> Matches { get; set; }
+
+        public DbSet<Global> Globals { get; set; }
     }
 }
